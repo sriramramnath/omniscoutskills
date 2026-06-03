@@ -1,5 +1,5 @@
 ---
-name: scout
+name: omniscout
 description: |
   OmniScout is a local-first CLI for AI agents: semantic web search (DuckDuckGo +
   local rerank), one-sentence answers, multi-step research, URL extraction to

@@ -5,7 +5,7 @@ Agent skills for [OmniScout](https://github.com/sriramramnath/omniscout) — loc
 Install via the [Vercel skills CLI](https://github.com/vercel-labs/skills):
 
 ```bash
-npx skills add sriramramnath/omniscoutskills --skill scout -g -y
+npx skills add sriramramnath/omniscoutskills --skill omniscout -g -y
 ```
 
 List skills in this package:
@@ -25,7 +25,7 @@ omniscout install
 
 | Skill | Description |
 |-------|-------------|
-| `scout` | Search, research, extract, browser memory, and full browser automation via `omniscout` |
+| `omniscout` | Search, research, extract, browser memory, and full browser automation via `omniscout` |
 
 Skill source of truth in the main project: `docs/agent-skill.md` on [omniscout](https://github.com/sriramramnath/omniscout). Update this repo when that file changes.
 
