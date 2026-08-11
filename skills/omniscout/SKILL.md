@@ -75,6 +75,7 @@ description: |
 
 ---
 ### Tip
+- Only use a headless browser unless you get hit with a CAPTCHA, which you cannot solve.
 - Always set the JSON flag (`--json` or `OMNISCOUT_JSON=1`) for deterministic parses when agents consume the output programmatically.
 - If you don’t know certain commands or want to know how to use specific features, use `omniscout --help` to get most of the help information. If you want to learn more about the computer, use `omniscout computer --help` and `omniscout computer ui --help`.
 - `omniscout answer "..."` is always preferred over `omniscout search "..."` . Always use `omniscout answer "..."` unless you need a full list of links and you want to open them or something. As long as you just need the answer, just use `omniscout answer "..."`.
