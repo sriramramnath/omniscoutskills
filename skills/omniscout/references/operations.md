@@ -4,6 +4,19 @@ Read this file when the health check in `SKILL.md` indicates the daemon
 is missing, not running, or you've hit an unexpected error. Every non-healthy
 state has a routing entry below; don't guess fixes outside of these.
 
+## Buy / shop / book on a website
+
+| Wrong (common agent mistakes) | Right |
+|---|---|
+| `extract` / `answer` to find prices, then `browser open` to a product URL | `omniscout auto "<user sentence verbatim>"` |
+| `cursor-ide-browser` or another IDE browser MCP | OmniScout only — `auto` opens a managed browser with `@eN` refs (no extension) |
+| `warmup` before shopping | `omniscout daemon start` only |
+| Three `open` / `navigate` / `browser open` calls to the same URL | One `auto`; if JSON has `skipped_duplicate_open`, run `browser snapshot` only |
+
+After `auto`, loop **`browser snapshot` → observe / act / click / fill** on the
+**same session**. Stop before payment or card entry. Shop tasks use Playwright
+when the scout extension is not connected — that is expected.
+
 ## Path convention
 
 All state lives under `~/Library/Application Support/omniscout/daemon/` (macOS)
@@ -24,6 +37,8 @@ or `$XDG_DATA_HOME/omniscout/daemon/` (Linux):
 | `{"running": false}` from `omniscout daemon status` | `omniscout daemon start` |
 | Daemon starts but immediately exits | `omniscout daemon logs --prev -n 200` to inspect the previous run; common cause is a port conflict — try `omniscout daemon start --port 0` to auto-pick. |
 | Action returns `error_kind: "backend_unavailable"` | Extension backend selected but extension isn't connected. Either install the extension (see `extension/README.md`) OR drop `args.backend = "extension"` so omniscout uses Playwright. |
+| Tab opens in the background | Use `omniscout open URL --headful` so the extension activates the tab. Default is still a new tab (`open_new_tab`). |
+| `daemon status` shows `extension_connected: true` | New sessions automate **your** browser, not a separate managed window. |
 | Action returns `error_kind: "no_such_ref"` | The ref expired or the page changed. Re-run `snapshot` and use the new refs. |
 | Action returns `error_kind: "timeout"` | Page hasn't settled. Try `wait --idle` then retry; or bump `--timeout-ms`. |
 | Action returns `error_kind: "unsupported"` | Backend doesn't support that verb. `pdf` and `upload` require Playwright; switch backend. |
@@ -62,6 +77,9 @@ omniscout daemon logs --prev -n 200  # the previous run's log (after a crash)
 | `click @eN` returns `no_such_ref` | The ref expired (TTL 120s) or you re-navigated. Re-`snapshot`. |
 | `fill` writes to the wrong element on SPAs | The role-based locator is ambiguous. Use the snapshot's `value` field to verify which `@e` you want; or fall back to a more specific CSS selector. |
 | Screenshot path lives in a temp dir you can't access | Pass `--out /path/you/control.png` explicitly. |
+| Screenshot only shows the visible viewport / cuts off below-the-fold content | Viewport capture is the default. Re-run with `--full-length` or `--full-page` for a top-to-bottom capture. |
+| Extension full-page screenshot still looks viewport-sized (pre-0.2.9) | Upgrade to `omniscout` 0.2.9+ and restart the daemon. |
+| Screenshot shows a loading spinner or half-rendered page | Page settled before you captured. Re-run with `--delay SEC` (e.g. `--delay 3`) or `browser wait networkidle` first. |
 | Banner doesn't appear on extension-driven tabs | Reload the page once after enabling the extension. |
 
 ## Reset to a clean state
