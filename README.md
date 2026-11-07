@@ -1,10 +1,6 @@
 # OmniScout Skills
 
-[![skills.sh](https://skills.sh/b/omniscoutdotxyz/skills)](https://skills.sh/omniscoutdotxyz/skills)
-
-Agent Skills for [OmniScout](https://omniscout.xyz) — local-first web search, research, extraction, and browser automation for AI agents.
-
-These skills follow the open [Agent Skills](https://agentskills.io) format, so any compatible agent can discover and load them.
+Agent Skills for [OmniScout](https://omniscout.xyz) — local-first web search, research, extraction, browser and computer automation for AI agents.
 
 ## Repository structure
 
