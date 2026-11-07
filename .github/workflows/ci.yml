@@ -1,0 +1,54 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: validate skill
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install skills-ref
+        run: python -m pip install --upgrade pip && pip install --no-cache-dir skills-ref
+
+      - name: Validate SKILL.md
+        run: agentskills validate ./skills/omniscout
+
+  install:
+    name: install with skills CLI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # Install from this checkout, not from GitHub, so a broken tree fails
+      # before it reaches the published repo.
+      - name: Install the skill
+        env:
+          DISABLE_TELEMETRY: "1"
+        run: npx --yes skills@latest add . --skill omniscout --agent claude-code --copy -y
+
+      - name: Verify the installed skill
+        run: |
+          test -f .claude/skills/omniscout/SKILL.md
+          test -f .claude/skills/omniscout/references/operations.md
+          diff -r skills/omniscout .claude/skills/omniscout
