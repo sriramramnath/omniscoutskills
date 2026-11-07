@@ -68,6 +68,6 @@ Instructions the agent follows when this skill is active.
 uvx --from skills-ref agentskills validate ./skills/omniscout
 ```
 
-## License
+## Contributing
 
-Modified MIT — see [LICENSE](LICENSE).
+Improvements to the skill are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
