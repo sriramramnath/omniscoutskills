@@ -1,30 +1,24 @@
-> **Note:** This repository contains OmniScout's skills for AI agents. For information about the Agent Skills standard, see [agentskills.io](https://agentskills.io).
+# OmniScout Skills
 
-# Skills
+Agent Skills for [OmniScout](https://omniscout.xyz) — local-first web search, research, extraction, and browser automation for AI agents.
 
-Skills are folders of instructions and resources that an agent loads on demand to work better on a specific task. This repository packages the OmniScout skill in that format, so any agent that supports Agent Skills can search the web, research topics, extract page content, remember pages, and drive a real browser.
+These skills follow the open [Agent Skills](https://agentskills.io) format, so any compatible agent can discover and load them.
 
-For more information, check out:
+## Repository structure
 
-- [What are skills?](https://support.claude.com/en/articles/12512176-what-are-skills)
-- [Using skills in Claude](https://support.claude.com/en/articles/12512180-using-skills-in-claude)
-- [How to create custom skills](https://support.claude.com/en/articles/12512198-creating-custom-skills)
-- [Equipping agents for the real world with Agent Skills](https://anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)
+```
+skills/
+└── omniscout/
+    ├── SKILL.md              # metadata and instructions the agent loads
+    └── references/
+        └── operations.md     # troubleshooting, loaded on demand
+```
 
-# About This Repository
+Each skill is a self-contained directory with a `SKILL.md` file. The `name` in its frontmatter matches the directory name, and supporting files are referenced from the skill root with relative paths.
 
-This repository contains the OmniScout skill. Search, research, extraction, and browser automation are documented in the skill itself, so it works the same whether an agent loads it from here or from a local install.
+## Install
 
-Each skill is self-contained in its own folder with a `SKILL.md` file containing the instructions and metadata the agent uses. Supporting references live next to it and are loaded only when needed.
-
-# Skill Sets
-
-- [./skills](./skills): The OmniScout skill
-- [./template](./template): Skill template for new contributions
-
-# Install
-
-## Any Agent Skills client
+With the [skills CLI](https://github.com/vercel-labs/skills):
 
 ```bash
 npx skills add omniscoutdotxyz/skills --skill omniscout -g -y
@@ -36,65 +30,42 @@ List the skills in this repository:
 npx skills add omniscoutdotxyz/skills --list
 ```
 
-## Claude Code
-
-Register this repository as a plugin marketplace:
-
-```text
-/plugin marketplace add omniscoutdotxyz/skills
-```
-
-Then install the skill:
-
-```text
-/plugin install omniscout@omniscout-skills
-```
-
-## OmniScout CLI
-
-The OmniScout CLI can install this skill and its setup instructions for you:
+Or let the OmniScout CLI install the skill and setup instructions:
 
 ```bash
 pip install omniscout
 omniscout install --skill
 ```
 
-# Skills
+## Skills
 
 | Skill | Description |
 |-------|-------------|
 | `omniscout` | Search, research, extract, browser memory, and full browser automation via `omniscout` |
 
-# Creating a Basic Skill
+## Creating a skill
 
-A skill is just a folder with a `SKILL.md` file containing YAML frontmatter and instructions. Use the [template](./template/SKILL.md) as a starting point:
+A skill is a folder containing a `SKILL.md` file with YAML frontmatter and instructions:
 
 ```markdown
 ---
-name: my-skill-name
-description: A clear description of what this skill does and when to use it
+name: my-skill
+description: What the skill does and when an agent should use it.
 ---
 
-# My Skill Name
+# My Skill
 
-[Add your instructions here that the agent will follow when this skill is active]
-
-## Examples
-- Example usage 1
-- Example usage 2
-
-## Guidelines
-- Guideline 1
-- Guideline 2
+Instructions the agent follows when this skill is active.
 ```
 
-The frontmatter requires only two fields:
+`name` must be lowercase and match the folder name. `description` is limited to 1024 characters and should say what the skill does and when to use it. See the [specification](https://agentskills.io/specification) for the full set of fields.
 
-- `name` — A unique identifier for your skill (lowercase, hyphens for spaces)
-- `description` — A complete description of what the skill does and when to use it
+## Validate
 
-The markdown content below contains the instructions, examples, and guidelines the agent follows while the skill is active.
+```bash
+uvx --from skills-ref agentskills validate ./skills/omniscout
+```
 
-# License
+## License
 
 Modified MIT — see [LICENSE](LICENSE).
